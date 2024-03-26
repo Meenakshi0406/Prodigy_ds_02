@@ -1,0 +1,67 @@
+# Importing necessary libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the Titanic dataset
+titanic_df = pd.read_csv('titanic.csv')
+
+# Display basic information about the dataset
+print(titanic_df.info())
+
+# Check for missing values
+print(titanic_df.isnull().sum())
+
+# Handling missing values
+# For 'Age', fill missing values with median
+titanic_df['Age'].fillna(titanic_df['Age'].median(), inplace=True)
+# For 'Embarked', fill missing values with the mode
+titanic_df['Embarked'].fillna(titanic_df['Embarked'].mode()[0], inplace=True)
+
+# Exploratory Data Analysis (EDA)
+
+# Univariate Analysis
+# Histogram of Age distribution
+plt.figure(figsize=(8, 6))
+sns.histplot(titanic_df['Age'], bins=20, kde=True)
+plt.title('Distribution of Age')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.show()
+
+# Count plot of survival
+plt.figure(figsize=(8, 6))
+sns.countplot(x='Survived', data=titanic_df)
+plt.title('Count of Survived vs Not Survived')
+plt.xlabel('Survived')
+plt.ylabel('Count')
+plt.show()
+
+# Bivariate Analysis
+# Scatter plot of Age vs Fare
+plt.figure(figsize=(8, 6))
+sns.scatterplot(x='Age', y='Fare', data=titanic_df, hue='Survived')
+plt.title('Age vs Fare (Survived vs Not Survived)')
+plt.xlabel('Age')
+plt.ylabel('Fare')
+plt.show()
+
+# Box plot of Pclass vs Age
+plt.figure(figsize=(8, 6))
+sns.boxplot(x='Pclass', y='Age', data=titanic_df)
+plt.title('Box plot of Pclass vs Age')
+plt.xlabel('Pclass')
+plt.ylabel('Age')
+plt.show()
+
+# Multivariate Analysis
+# Correlation matrix
+plt.figure(figsize=(10, 8))
+sns.heatmap(titanic_df.corr(), annot=True, cmap='coolwarm', fmt='.2f')
+plt.title('Correlation Matrix')
+plt.show()
+
+# Pair plot
+sns.pairplot(titanic_df, hue='Survived')
+plt.show()
